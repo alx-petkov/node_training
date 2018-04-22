@@ -16,8 +16,13 @@
 //
 // arrFunc();
 
+// require("babel-core").transform("code", []);
+
 const config = require('./config/config.json');
 console.log(config.name);
 
-// onst UserClass = require('./models/User.js');
-// onst ProductClass = require('./models/Product.js');
+import User from './models/User';
+const user1 = new User();
+
+import Product from './models/Product';
+const product1 = new Product();
