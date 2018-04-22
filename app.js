@@ -18,8 +18,10 @@
 
 // require("babel-core").transform("code", []);
 
-const config = require('./config/config.json');
+import * as config from './config/config.json';
 console.log(config.name);
+
+// import { User, Product } from './models/*.js';
 
 import User from './models/User';
 const user1 = new User();
