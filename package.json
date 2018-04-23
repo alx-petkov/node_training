@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "",
-    "start": "nodemon ./bin/dev"
+    "start": "nodemon babel ./bin/dev"
   },
   "keywords": [],
   "author": "alex_hp <alx.petkov@test.com>",
