@@ -1,20 +1,29 @@
-const fs = require("fs");
+import fs from "fs";
+import { EventEmitter } from 'events';
+import myEm from './emitter';
+
 
 class Importer {
-    constructor(location, files) {
-        this.location = location;
-        this.files = files;
-    };
+    constructor() {
+        // super();
+        // this.location = location;
+        // this.files = files;
 
+        // this.emitter = new EventEmitter();
+        this.emitter = myEm;
+        this.emitter.addListener("test", this.readFiles);
+    }
 
-    readFiles() {
-        this.files.forEach((fileName) => {
-            const test = fs.readFileSync( this.location + fileName, 'utf8');
-            console.log(test)
+    readFiles(path, files){
+        // console.log(files);
+        files.forEach((fileName) => {
+             const test = fs.readFileSync( path + fileName, 'utf8');
+             console.log(fileName, test)
         });
     };
 
 }
+
 
 export default Importer;
 

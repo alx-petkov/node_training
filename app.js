@@ -2,15 +2,14 @@
 import DirWatcher from './models/dirwatcher';
 import Importer from './models/importer';
 
-// const Dir1 = new DirWatcher();
-//
-// console.log(Dir1);
-//
-// Dir1.readDir();
+const dirPath = "././data/";
 
-const Imp1 = new Importer('././data/', [ 'file_1.csv', 'file_2.csv', 'file_3.csv' ]);
-Imp1.readFiles();
-// console.log(list);
+const Dir1 = new DirWatcher(dirPath);
+
+const Imp1 = new Importer();
+
+Dir1.readDir();
+
 
 //const config = require('./config/config.json');
 //console.log(config.name);

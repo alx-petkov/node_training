@@ -1,39 +1,32 @@
-const fs = require("fs");
+import fs from 'fs';
+// import { EventEmitter } from 'events';
+import myEm from './emitter';
 
 class DirWatcher {
-    constructor() {
-        this.location = "././data/";
+    constructor(location) {
+        this.location = location;
         this.files = [];
+
+        // this.emitter = new EventEmitter();
+        this.emitter = myEm;
+        // this.emitter.addListener("test", this.readFiles);
     };
 
-    // updateFiles(err, fileNames) {
-    //   if (err) {
-    //      return console.log(err);
-    //   } else {
-    //       // return fileNames
-    //     // this.files.push(fileNames);
-    //       console.log(this);
-    //   }
-    //   fileNames.forEach( function (file){
-    //      console.log( file );
-    //   });
-    // };
 
     readDir() {
-      const test = fs.readdirSync( this.location);
-      console.log(test)
+
+        const test = fs.readdirSync( this.location);
+
+      if(this.files.length < test.length){ // toDo check with lodash isEqual()
+          this.files = test;
+          this.emitter.emit('test', this.location, test);
+      }
+
+
+      console.log('readDir', test)
     };
 
 }
 
 export default DirWatcher;
 
-/*console.log("Going to read directory /tmp");
-fs.readdir("../data/", function(err, files){
-   if (err) {
-      return console.error(err);
-   }
-   files.forEach( function (file){
-      console.log( file );
-   });
-});*/
