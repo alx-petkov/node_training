@@ -6,19 +6,22 @@ class DirWatcher {
         this.files = [];
     };
 
-    updateFiles(err, fileNames) {
-      if (err) {
-         return console.log(err);
-      } else {
-        // this.files.push(fileNames);
-      }
-      fileNames.forEach( function (file){
-         console.log( file );
-      });
-    };
+    // updateFiles(err, fileNames) {
+    //   if (err) {
+    //      return console.log(err);
+    //   } else {
+    //       // return fileNames
+    //     // this.files.push(fileNames);
+    //       console.log(this);
+    //   }
+    //   fileNames.forEach( function (file){
+    //      console.log( file );
+    //   });
+    // };
 
-    readDir(){
-      fs.readdir( this.location, this.updateFiles.bind(this));
+    readDir() {
+      const test = fs.readdirSync( this.location);
+      console.log(test)
     };
 
 }
