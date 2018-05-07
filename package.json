@@ -1,20 +1,30 @@
 {
   "name": "node_project",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "",
-    "start": "nodemon babel ./app.js"
+    "babel-node": "babel-node --presets=env",
+    "start": "nodemon --exec npm run babel-node -- ./app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "alex_hp <alx.petkov@test.com>",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
     "nodemon": "^1.17.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alx-petkov/node_training.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alx-petkov/node_training/issues"
+  },
+  "homepage": "https://github.com/alx-petkov/node_training#readme",
+  "description": ""
 }
