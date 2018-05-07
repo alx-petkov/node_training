@@ -26,5 +26,8 @@
     "url": "https://github.com/alx-petkov/node_training/issues"
   },
   "homepage": "https://github.com/alx-petkov/node_training#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "lodash": "^4.17.10"
+  }
 }

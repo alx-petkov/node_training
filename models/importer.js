@@ -1,17 +1,12 @@
 import fs from "fs";
-import { EventEmitter } from 'events';
-import myEm from './emitter';
+import myEm, { eventName } from './emitter';
 
 
 class Importer {
     constructor() {
-        // super();
-        // this.location = location;
-        // this.files = files;
 
-        // this.emitter = new EventEmitter();
         this.emitter = myEm;
-        this.emitter.addListener("test", this.readFiles);
+        this.emitter.addListener(eventName, this.readFiles);
     }
 
     readFiles(path, files){

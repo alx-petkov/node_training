@@ -8,7 +8,7 @@ const Dir1 = new DirWatcher(dirPath);
 
 const Imp1 = new Importer();
 
-Dir1.readDir();
+Dir1.watch(10000);
 
 
 //const config = require('./config/config.json');
