@@ -28,6 +28,7 @@
   "homepage": "https://github.com/alx-petkov/node_training#readme",
   "description": "",
   "dependencies": {
+    "csvtojson": "^1.1.10",
     "lodash": "^4.17.10"
   }
 }

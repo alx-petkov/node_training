@@ -1,5 +1,6 @@
 import fs from "fs";
 import myEm, { eventName } from './emitter';
+import csv from 'csvtojson';
 // import { promisify } from 'util';
 // usign custom promisify because of older node version - 6.9
 const promisify = f => (...args) => new Promise((a,b)=>f(...args, (err, res) => err ? b(err) : a(res)));
@@ -34,8 +35,13 @@ class Importer {
         });
     };
 
-    logFormated(path, content){ // toDo convert csv to json
-       console.log( path, '======content reads=====>', '\n', content, '\n');  
+    logFormated(path, content){ 
+        console.log('\n', path, '======content reads=====>');
+        csv()
+        .fromString(content)
+        .on('json',(jsonLine)=>{ //parsing finished
+            console.log(jsonLine);
+        })
     }
 
 
