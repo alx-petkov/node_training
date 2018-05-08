@@ -1,8 +1,13 @@
 import fs from "fs";
 import myEm, { eventName } from './emitter';
+// import { promisify } from 'util';
+// usign custom promisify because of older node version - 6.9
+const promisify = f => (...args) => new Promise((a,b)=>f(...args, (err, res) => err ? b(err) : a(res)));
 
+const readPromise = promisify(fs.readFile);
 
 const encoding = 'utf8';
+
 
 class Importer {
     constructor() {
@@ -16,25 +21,44 @@ class Importer {
         const that = this;
 
         files.forEach((fileName) => {
-           // that.importSync(location + fileName);
-           that.import(location + fileName)
+           const path = location + fileName; 
+           // const contentS = that.importSync(path);
+           // that.logFormated(path, contentS)
+           // that.import(path);
+           
+           that.importPromise(path)
+           .then(
+               (contentP) => that.logFormated(path, contentP), 
+               () => console.log('error has occured')
+           );
         });
     };
 
-    import(path){ // toDo return a promise and convert scv to json
-        fs.readFile(path, encoding, (err, content) => {
-            if(err){
-                console.log(err);
-            }
-            console.log( path, '======Async content read=====>', '\n', content, '\n');
-        })
+    logFormated(path, content){ // toDo convert csv to json
+       console.log( path, '======content reads=====>', '\n', content, '\n');  
     }
 
-    importSync(path){ // toDo convert csv to json
+
+    importSync(path){ 
         const content = fs.readFileSync( path, encoding);
-        console.log( path, '======Sync content read=====>', '\n', content, '\n');
+        return content;
     }
 
+    import(path){
+       fs.readFile(path, encoding, (err, contentA) => {
+           if(err){ 
+               console.log(err); 
+            } else {
+                this.logFormated(path, contentA);
+            }
+       })
+    }
+
+    importPromise(path){
+        return readPromise(path, encoding)
+        .then((content) => content )
+        .catch((err) => {  console.log(err); })
+    }
 }
 
 export default Importer;
