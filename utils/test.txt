@@ -1,2 +1,0 @@
-this is a test file
-just to check if streams works
