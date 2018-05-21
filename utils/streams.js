@@ -1,4 +1,6 @@
 
+const fs = require('fs');
+const csv = require('csvtojson');
 const propsObj = require('minimist')(process.argv.slice(2));
 const propsKeys = Object.keys(propsObj);
 let showHelp = ['h', 'help'].indexOf(propsKeys[1]) + 1; // 2.d
@@ -26,8 +28,23 @@ var actions = {
             process.stdout.write(inputStr.toUpperCase() + "\n");
         })
     },
-    outputFile: function(filePath) { console.log('otputFile')},
-    convertFromFile: function(filePath) { console.log('convertFromFile') },
+    outputFile: function(filePath) { 
+        outputStream = fs.createReadStream(__dirname + "/" + filePath, 'utf8');
+        outputStream.pipe(process.stdout);
+    },
+    convertFromFile: function(filePath) { 
+       fs.createReadStream(__dirname + "/" + filePath, 'utf8', (err, content) => {
+            if(err){ 
+               console.error(err); 
+            } else {
+                csv()
+                .fromString(content)
+                .on('json',(jsonLine)=>{ //parsing finished
+                        process.stdout.write(jsonLine);
+                })
+            }
+        });
+    },
     convertToFile: function(filePath) { console.log('convertToFile') }
    
 };
@@ -44,6 +61,7 @@ if (showHelp){
 };
 
 const actionName = propsObj['a'] ? propsObj['a'] : propsObj['action'];
+const filePath = propsObj['f'] ? propsObj['f'] : propsObj['file'];
 
-actions[actionName]();
+actions[actionName](filePath);
 
