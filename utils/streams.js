@@ -1,18 +1,36 @@
 
 const fs = require('fs');
 const csv = require('csvtojson');
-const propsObj = require('minimist')(process.argv.slice(2));
-const propsKeys = Object.keys(propsObj);
-let showHelp = ['h', 'help'].indexOf(propsKeys[1]) + 1; // 2.d
+const https = require('https');
 
-/* var args = require('minimist')(process.argv.slice(2), {
+
+// const propsObj = require('minimist')(process.argv.slice(2));
+var propsObj = require('minimist')(process.argv.slice(2), {
   alias: { h: 'help', a: 'action', f: 'file', p: 'path' },
   unknown: function (arg) {
-      if (arg){
+      if (arg){ // invoked on unknown param 
           console.log('you passed an unexpected argument');
       }
-   } // invoked on unknown param 
-}) */
+   } 
+});
+
+
+const propsKeys = Object.keys(propsObj);
+let showHelp = ['h', 'help'].indexOf(propsKeys[1]) + 1;
+
+// node ./utils/streams.js
+if(propsKeys.length <= 1){
+    
+    console.log('no argemunets passed');
+    showHelp = true;
+}
+
+// node ./utils/streams.js -h
+if (showHelp){
+    
+    console.log('this is useless help message');
+    return;
+};
 
 
 var actions = {
@@ -23,6 +41,7 @@ var actions = {
             process.stdout.write(inputStr.split("").reverse().join("") + "\n");
         })
     },
+
     // node ./utils/streams.js -a transform
     transform: function(str) { 
         process.stdin.on('data', function(data){
@@ -30,21 +49,21 @@ var actions = {
             process.stdout.write(inputStr.toUpperCase() + "\n");
         })
     },
+
     // node ./utils/streams.js -a outputFile -f ../data/file_1.csv
     outputFile: function(filePath) { 
         outputStream = fs.createReadStream(__dirname + "/" + filePath, 'utf8');
         outputStream.pipe(process.stdout);
     },
+
     // node ./utils/streams.js -a convertFromFile -f ../data/file_1.csv
     convertFromFile: function(filePath) {
         let readStream = fs.createReadStream(__dirname + "/" + filePath, 'utf8');
         // readStream.pipe(process.stdout);
         let chunks = [];
 
-
         // Handle any errors while reading
         readStream.on('error', err => {
-            // handle error
             console.error(err);
         });
 
@@ -59,48 +78,63 @@ var actions = {
 
         // File is done being read
         readStream.on('close', () => {
-            // Output the converted data
             process.stdout.write(JSON.stringify(chunks));
         });
     },
+
     // node ./utils/streams.js -a convertToFile -f ../data/file_1.csv
     convertToFile: function(filePath) {
         fs.createReadStream(__dirname + "/" + filePath, 'utf8')
             .pipe(csv())
             .pipe(fs.createWriteStream(__dirname + "/" + filePath.replace('csv', 'json')));
     },
-    // node ./utils/streams.js -a cssBlunder -p ../data/file_1.csv
+
+    // node ./utils/streams.js -a cssBlunder -p ../css/
     cssBlunder: function(dirPath){
 
         var fileNames = fs.readdirSync(__dirname + "/" + dirPath);
-        var wstream = fs.createWriteStream(__dirname + "/" + dirPath + '/bundle.css');
-        let chunks = [];
-        let test = 0;
+        var wstream = fs.createWriteStream(__dirname + "/" + dirPath + '/bundle.css')
+
 
         fileNames.forEach(function(file){
                 let readStream = fs.createReadStream(__dirname + "/" + dirPath + '/' + file, 'utf8');
                    
                 // Handle any errors while reading
                 readStream.on('error', err => {
-                    // handle error
                     console.error(err);
                  });
 
                 // Listen for data
                 readStream.on('data', chunk => {
-                    chunks.push(chunk.trim());
                     wstream.write(chunk);
                 });
 
                 // File is done being read
-                readStream.on('close', () => {
-                    test = 5;
-                    // Output the converted data
-                    // process.stdout.write(JSON.stringify(chunks));
-                    wstream.write('\n\r end of file' + file + '======== \n\r');
+                readStream.on('end', () => {
+
+                    if (file == fileNames[fileNames.length - 1]){
+                        const adress = 'https://drive.google.com/file/d/1tCm9Xb4mok4Egy2WjGqdYYkrGia0eh7X/edit';
+                        const adress2 = 'https://epa.ms/nodejs18-hw3-css';
+                        const adress3 = 'https://www.googleapis.com/drive/v2/files/1tCm9Xb4mok4Egy2WjGqdYYkrGia0eh7X/edit';
+
+                        https.get(adress3).on('response', function (response) {
+                            var body = '';
+                            var i = 0;
+                            response.setEncoding('utf8');
+                            response.on('data', function (htchunk) {
+                                i++;
+                                body += htchunk;
+                                console.log('BODY Part: ' + i, htchunk);
+                            });
+                            response.on('end', function () {
+
+                                    console.log(body);
+                                    console.log('Finished');
+                            });
+                        });
+                    }
                 });
         })
-        console.log(chunks, test);
 
         /*fs.readdir(__dirname + "/" + dirPath, function(err, filenames) {
             if (err) {
@@ -127,24 +161,38 @@ var actions = {
 };
 
 
-if(propsKeys.length <= 1){
-    // node ./utils/streams.js
-    console.log('no argemunets passed');
-    showHelp = true;
+const actionName = propsObj['action'];
+const filePath = propsObj['file'];
+const dirPath = propsObj['path'];
+
+const actionOptions = Object.keys(actions);
+const actionIndex = actionOptions.indexOf(actionName)
+
+
+
+if (actionIndex < 0 ){
+    console.log('no such action avaliable');
+    return;
 }
 
-if (showHelp){
-    // node ./utils/streams.js -h
-    console.log('this is useless help message');
+if (actionName == 'cssBlunder'){
+    if (!dirPath){
+        console.log('no path to read from provided');
+    } else {
+        actions[actionName](dirPath); 
+    } 
     return;
-};
+}
 
-const actionName = propsObj['a'] ? propsObj['a'] : propsObj['action'];
-const filePath = propsObj['f'] ? propsObj['f'] : propsObj['file'];
-const dirPath = propsObj['p'] ? propsObj['p'] : propsObj['path'];
+if(actionIndex > 1){
+    if (!filePath){
+        console.log('no file to read from provided');
+    } else {
+       actions[actionName](filePath); 
+    }
+    return;
+}
 
-if(actionName == 'cssBlunder'){
-    actions[actionName](dirPath); 
-} else{
-    actions[actionName](filePath);
+if(actionIndex + 1){
+    actions[actionName]();
 }
