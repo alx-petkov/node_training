@@ -117,7 +117,17 @@ var actions = {
                         const adress2 = 'https://epa.ms/nodejs18-hw3-css';
                         const adress3 = 'https://www.googleapis.com/drive/v2/files/1tCm9Xb4mok4Egy2WjGqdYYkrGia0eh7X/edit';
 
-                        https.get(adress3).on('response', function (response) {
+                        var options = {
+                            hostname: 'drive.google.com',
+                            // hostname: 'en.wikipedia.org',
+                            port: 443,
+                            path: '/uc?export=download&id=1tCm9Xb4mok4Egy2WjGqdYYkrGia0eh7X',
+                            // path: '/wiki/Donald_Glover',
+                            method: "GET"
+                        }
+
+
+                        /*var req = https.request(options, function (response) {
                             var body = '';
                             var i = 0;
                             response.setEncoding('utf8');
@@ -132,9 +142,29 @@ var actions = {
                                     console.log('Finished');
                             });
                         });
+
+                        req.end();*/
                     }
                 });
         })
+
+
+        // =========================================================
+
+        const downloadFile = (url) => {
+  return new Promise((resolve, reject) => {
+    https.get(url,
+      (res) => {
+        if(res.headers.location) {
+          return downloadFile(res.headers.location).then(stream => resolve(stream));
+        }
+        resolve(res);
+      });
+  });
+};
+
+downloadFile('https://drive.google.com/uc?export=download&id=1tCm9Xb4mok4Egy2WjGqdYYkrGia0eh7X')
+.then(stream => stream.pipe(process.stdout))
 
         /*fs.readdir(__dirname + "/" + dirPath, function(err, filenames) {
             if (err) {
