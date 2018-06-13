@@ -15,7 +15,6 @@ const product = {
 const requestCallback = (request, response) => {
     console.log('a user made a request' + request.url);
     response.writeHead(200, {"Content-Type": "application/json"});
-    // response.write("this is a 'Hellow world' plain text response");
     var jsonData = JSON.stringify({ product: product});
     response.end(jsonData);
 }
@@ -23,6 +22,6 @@ const requestCallback = (request, response) => {
 http
 .createServer()
 .on('request', requestCallback)
-.listen(9000);
+.listen(7000);
 
-console.log('server is now running at port 9000');
+console.log('server is now running at port 7000');
