@@ -1,19 +1,11 @@
+import express from 'express';
+import router from './routes/routes';
+const app = express();
 
-import DirWatcher from './models/dirwatcher';
-import Importer from './models/importer';
+app.use('/', router);
 
-const dirPath = "././data/";
+app.get('/',(request,response)=>{
+  response.send('Hello world app');
+});
 
-const Dir1 = new DirWatcher(dirPath);
-
-const Imp1 = new Importer();
-
-Dir1.watch(7000);
-
-
-//const config = require('./config/config.json');
-//console.log(config.name);
-
-// onst UserClass = require('./models/User.js');
-// onst ProductClass = require('./models/Product.js');
-
+export default app;

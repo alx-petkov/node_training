@@ -5,7 +5,7 @@
   "scripts": {
     "test": "",
     "babel-node": "babel-node --presets=env",
-    "start": "nodemon --exec npm run babel-node -- ./app.js"
+    "start": "nodemon --exec npm run babel-node -- ./index.js"
   },
   "keywords": [],
   "author": "alex_hp <alx.petkov@test.com>",
@@ -16,7 +16,6 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
-    "express": "^4.16.3",
     "minimist": "^1.2.0",
     "nodemon": "^1.17.3"
   },
@@ -31,6 +30,7 @@
   "description": "",
   "dependencies": {
     "csvtojson": "^1.1.10",
+    "express": "^4.16.3",
     "lodash": "^4.17.10"
   }
 }
