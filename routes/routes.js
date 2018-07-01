@@ -1,8 +1,15 @@
 import express from 'express';
+import cookieMid from '../middlewares/cookies';
+import queryMid from '../middlewares/queries';
+
+
 const router = express.Router();
+
+router.use(cookieMid, queryMid);
 
 
 router.get('/', function (req, res) {
+  console.log(req.parsedCookie, req.parsedQuery);
   res.send('Homepage route')
 })
 
