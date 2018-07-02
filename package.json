@@ -29,6 +29,7 @@
   "homepage": "https://github.com/alx-petkov/node_training#readme",
   "description": "",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "csvtojson": "^1.1.10",
     "express": "^4.16.3",

@@ -26,23 +26,35 @@ router.get('/api/products', function (req, res) {
 router.get('/api/products/:id', function (req, res) {
   const SingleProduct = ProductCtr.getById(req.params.id); 
   console.log('product by ID', req.params.id, SingleProduct); 
-  res.send('/api/products/:id');
+
+  res.send('/api/products/:id <br/>' + SingleProduct);
   
 })
 
 router.get('/api/products/:id/reviews', function (req, res) {
-  res.send('/api/products/:id/reviews')
-  console.log(req.params)
+  const SingleProduct = ProductCtr.getById(req.params.id); 
+  const productReviews = ProductCtr.getReviews(req.params.id);  
+  console.log('product reviews for ', SingleProduct, productReviews);
+  res.send('/api/products/:id/reviews <br/>' + SingleProduct + 
+  '<br/> reviews <br/>' + productReviews.replace(/;/g, '<br/>'));
+  
 })
 
-router.get('/api/products', function (req, res) {
-  res.send('/api/products')
+router.post('/api/products', function (req, res) {
+    console.log('request', req.body);
+    const newProduct = ProductCtr.addNew(req.body);
+    console.log('adding new product: ', newProduct);
+    res.send('/api/products' + newProduct.name + 'added');
 })
 
 router.get('/api/users', function (req, res) {
   const allUsers = UsersCtr.getAll(); 
   console.log('all users: ', allUsers);  
   res.send('/api/users <br/>' + allUsers.replace(/;/g, '<br/>'));
+})
+
+router.get('*', function (req, res) { 
+  res.send('Page not found');
 })
 
 export default router;

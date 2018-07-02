@@ -9,8 +9,7 @@ const reviews = [{
   "id": 2,
   "reviews": [ 
     "transition web-enabled initiatives",
-    "at velit eu est congue elementum in hac habitasse platea dictumst",
-    "ac nulla sed vel enim sit amet nunc viverra dapibus nulla suscipit"
+    "at velit eu est congue elementum in hac habitasse platea dictumst"
    ]
 }, {
   "id": 3,
@@ -44,7 +43,7 @@ const reviews = [{
   "id": 7,
   "reviews": [
     "utilize innovative eyeballs",
-    "vulputate vitae nisl aenean lectus pellentesque eget nunc donec quis orci eget orci vehicula condimentum curabitur",
+    "vulputate vitae nisl aenean lectus pellentesque eget nunc donec quis condimentum curabitur",
     "pede libero quis orci nullam molestie nibh in lectus pellentesque at nulla"
   ]
 }, {
@@ -65,31 +64,6 @@ const reviews = [{
     "tincidunt eu felis fusce posuere felis sed lacus morbi sem mauris",
     "mauris ullamcorper purus sit amet nulla quisque arcu libero rutrum ac lobortis vel dapibus at diam nam"
   ]
-}, {
-  "id": 11,
-  "reviews": 
-  "review2": "lacus purus aliquet at feugiat non pretium quis lectus suspendisse potenti in eleifend quam a odio in hac habitasse platea",
-  "review3": "nibh in quis justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla ultrices aliquet maecenas leo odio condimentum"
-}, {
-  "id": 12,
-  "reviews": "matrix strategic ROI",
-  "review2": "orci mauris lacinia sapien quis libero nullam sit amet turpis elementum",
-  "review3": "semper est quam pharetra magna ac consequat metus sapien ut nunc vestibulum ante ipsum primis in faucibus orci luctus et"
-}, {
-  "id": 13,
-  "reviews": "deploy sticky channels",
-  "review2": "venenatis non sodales sed tincidunt eu felis fusce posuere felis sed lacus morbi sem mauris laoreet ut rhoncus",
-  "review3": "lacinia sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat morbi a ipsum"
-}, {
-  "id": 14,
-  "reviews": "implement wireless deliverables",
-  "review2": "fusce congue diam id ornare imperdiet sapien urna pretium nisl ut volutpat sapien",
-  "review3": "in hac habitasse platea dictumst morbi vestibulum velit id pretium iaculis diam erat fermentum justo nec"
-}, {
-  "id": 15,
-  "reviews": "matrix innovative vortals",
-  "review2": "sit amet turpis elementum ligula vehicula consequat morbi a ipsum integer a nibh in quis justo maecenas rhoncus",
-  "review3": "at ipsum ac tellus semper interdum mauris ullamcorper purus sit amet nulla quisque"
-}]
+}];
 
 export default reviews;

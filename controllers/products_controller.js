@@ -14,7 +14,6 @@ const ProductsCtr = () => {
         return data;
     };
 
-
     const getProductById = (urlId) => {
 
         const product = products.filter((product) => 
@@ -27,11 +26,43 @@ const ProductsCtr = () => {
 
         return 'product not found';
 
-    }
+    };
+
+    const getProductReviews = (urlId) => {
+
+        const userRev = Reviews.filter((rev) => 
+            rev.id.toString() === urlId.toString()
+        );
+
+        if (userRev.length){
+            let data = '';
+            userRev[0].reviews.forEach((text) => {
+                data += `\n\r ${text} ; `;
+            });
+            return data;
+        }
+
+        return 'product not found';
+
+    };
+
+    const addNewProduct = (userData) => {
+
+        const newProduct = {
+            name: userData.name || `Product #4${products.length + 1}`,
+            price: userData.price || 'N/A'
+        }
+        // toDo add the data to the file content ??
+        products.push(newProduct);
+        return newProduct;
+
+    };
     
     return {
        getAll: getAllProducts, 
-       getById: getProductById
+       getById: getProductById,
+       getReviews: getProductReviews,
+       addNew: addNewProduct 
     }
 
 }

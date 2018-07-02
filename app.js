@@ -1,11 +1,12 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import queryParser from 'query-parser-express';
+import bodyParser from 'body-parser';
 import router from './routes/routes';
 
 const app = express();
 
-app.use(cookieParser(), queryParser());
+app.use(bodyParser.json(), cookieParser(), queryParser());
 
 app.use('/', router);
 
