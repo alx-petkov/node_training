@@ -1,6 +1,6 @@
 const products = [{
   "id": 1,
-  "name": "Plasticknivesblack",
+  "name": "Plastic knives, black",
   "price": 70
 }, {
   "id": 2,
