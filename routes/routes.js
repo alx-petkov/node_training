@@ -62,4 +62,12 @@ router.get('*', function (req, res) {
   res.send('Page not found');
 })
 
+router.post('/auth', function (req, res) {
+  const SingleProduct = ProductCtr.getById(req.params.id); 
+  console.log('product by ID', req.params.id, SingleProduct); 
+
+  res.send('/api/products/:id <br/>' + SingleProduct);
+  
+})
+
 export default router;
