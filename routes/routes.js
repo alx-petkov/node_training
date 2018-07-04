@@ -15,14 +15,15 @@ router.get('/', function (req, res) {
   res.send('Homepage route')
 })
 
-// define the home page route
+
 router.get('/api/products', function (req, res) {
 
   const allProducts = ProductCtr.getAll();
   console.log('all products: ', allProducts);  
   res.send('/api/products <br/>' + allProducts.replace(/;/g, '<br/>'));
 })
-// define the about route
+
+
 router.get('/api/products/:id', function (req, res) {
   const SingleProduct = ProductCtr.getById(req.params.id); 
   console.log('product by ID', req.params.id, SingleProduct); 
@@ -30,6 +31,7 @@ router.get('/api/products/:id', function (req, res) {
   res.send('/api/products/:id <br/>' + SingleProduct);
   
 })
+
 
 router.get('/api/products/:id/reviews', function (req, res) {
   const SingleProduct = ProductCtr.getById(req.params.id); 
@@ -40,6 +42,7 @@ router.get('/api/products/:id/reviews', function (req, res) {
   
 })
 
+
 router.post('/api/products', function (req, res) {
     console.log('request', req.body);
     const newProduct = ProductCtr.addNew(req.body);
@@ -47,11 +50,13 @@ router.post('/api/products', function (req, res) {
     res.send('/api/products' + newProduct.name + 'added');
 })
 
+
 router.get('/api/users', function (req, res) {
   const allUsers = UsersCtr.getAll(); 
   console.log('all users: ', allUsers);  
   res.send('/api/users <br/>' + allUsers.replace(/;/g, '<br/>'));
 })
+
 
 router.get('*', function (req, res) { 
   res.send('Page not found');
