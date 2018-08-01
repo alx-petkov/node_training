@@ -4,6 +4,11 @@ import queryParser from 'query-parser-express';
 import bodyParser from 'body-parser';
 import router from './routes/routes';
 
+/* import mongo from 'mongodb';
+import mongoose from 'mongoose';
+mongoose.connect('mongodb://localhost/loginapp');
+const db = mongoose.connection; */
+
 const app = express();
 
 app.use(bodyParser.json(), cookieParser(), queryParser());

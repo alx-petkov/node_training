@@ -10,6 +10,31 @@ const router = express.Router();
 router.use(cookieMid, queryMid);
 
 
+router.post('/auth', function(req, res) {
+  const user = UsersCtr.authUser(req.body.username, req.body.password);
+
+  if(user){
+    res.send({
+      "code": 200,
+      "message": "OK",
+      "data": {
+          "user": {
+              "email": user.email,
+              "username": user.username
+          }
+      },
+      "token": "..."
+    });
+
+  } else {
+    res.send({
+      "code": 404,
+      "message": "Not Found",
+      "data": {}
+    });
+  }
+})
+
 router.get('/', function (req, res) {
   console.log(req.parsedCookie, req.parsedQuery);
   res.send('Homepage route')
