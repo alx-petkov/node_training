@@ -6,6 +6,7 @@ import ProductCtr from '../controllers/products_controller';
 import UsersCtr from '../controllers/users_controller';
 import { notFound, loggedIn } from '../constants/responces';
 var jwt = require('jsonwebtoken');
+import passport from 'passport';
 
 
 const router = express.Router();
@@ -30,6 +31,10 @@ router.post('/auth', function(req, res) {
   } else {
     res.send(notFound);
   }
+})
+
+router.post('/passport', passport.authenticate('local', { session: false }), function(req, res) {
+  res.send({ authenticated: true });
 })
 
 router.get('/', function (req, res) {
