@@ -1,4 +1,4 @@
-import users from '../models/Users';
+import users from '../constants/Users';
 
 
 const UsersCtr = () => {
@@ -17,7 +17,6 @@ const UsersCtr = () => {
         
         let foundUser = {};
         foundUser = users.find((user) => {
-            // console.log(user, name, pass );
             return (user.username === name && user.password === pass)
         });
 

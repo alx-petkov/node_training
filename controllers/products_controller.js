@@ -1,5 +1,5 @@
-import products from '../models/Products';
-import Reviews from '../models/Reviews';
+import products from '../constants/Products';
+import Reviews from '../constants/Reviews';
 
 
 const ProductsCtr = () => {

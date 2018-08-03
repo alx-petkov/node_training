@@ -7,11 +7,19 @@ import UsersCtr from '../controllers/users_controller';
 import { notFound, loggedIn } from '../constants/responces';
 var jwt = require('jsonwebtoken');
 import passport from 'passport';
+import Cities from '../models/Cities'
+
+const mongo = require('mongodb');
+const MongoClient = require('mongodb').MongoClient;
 
 
 const router = express.Router();
 
 router.use(cookieMid, queryMid);
+
+
+
+
 
 
 router.post('/auth', function(req, res) {
@@ -39,7 +47,48 @@ router.post('/passport', passport.authenticate('local', { session: false }), fun
 
 router.get('/', function (req, res) {
   console.log(req.parsedCookie, req.parsedQuery);
-  res.send('Homepage route')
+
+  Cities.getAll(res);
+  console.log(test);
+
+
+  // ===================================
+
+  /* mongo.connect('mongodb://127.0.0.1:27017', (err, dbp) => {
+  if(err) { console.log(err); }
+  const dba = dbp.db('node_tr');
+  const cursor = dba.collection('cities').find({});
+  console.log('cursor', cursor);
+  // const result = cursor.toArray();
+  cursor.forEach((doc, err)=>{
+  if(err){ console.log(err); }
+    console.log('document', doc);
+  }, () => {
+    
+   dbp.close();
+  })
+
+  });*/
+
+  // ============================================
+
+  /* MongoClient.connect('mongodb://127.0.0.1:27017', (err, database) => {
+  if(err) { console.log(err); }
+  const db = database.db('node_tr');
+  const cursor = db.collection('cities').find();
+
+    cursor.toArray((err, results) => {
+      if(err){ console.log(err); }
+      console.log('results', results);
+      }, () => {
+    
+      database.close();
+    })
+  })*/
+
+  // ============================================
+
+  // res.send('Homepage route')
 })
 
 
