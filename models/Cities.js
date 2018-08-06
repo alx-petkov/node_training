@@ -34,7 +34,7 @@ const Cities = () => {
             const dba = dbp.db(dbName);
             // dba.createCollection('cities');
             const cursor = dba.collection(collectionName).insertMany(cities);
-            console.log('cities are inserted');
+            console.log('Cities are inserted');
             let resp = [];
              
         }); 
@@ -83,9 +83,17 @@ const Cities = () => {
             })
     } 
 
+    const deleteCityById = (id, callback) => {
+        CityData.findByIdAndRemove(id, (err) => {
+            if(err){ console.log(err); }
+            else callback( {status: 200, msg: 'item removed'});
+        }).exec();
+    }
+
     return {
         getAll: getAllCities,
-        mgGetAll: getAllWithMongoose
+        mgGetAll: getAllWithMongoose,
+        deleteById: deleteCityById
     }
 }
 

@@ -1,53 +1,27 @@
 import express from 'express';
 import cookieMid from '../middlewares/cookies';
 import queryMid from '../middlewares/queries';
-import verifyToken from '../middlewares/tokens';
-import ProductCtr from '../controllers/products_controller';
-import UsersCtr from '../controllers/users_controller';
+// import verifyToken from '../middlewares/tokens';
+// import ProductCtr from '../controllers/products_controller';
+// import UsersCtr from '../controllers/users_controller';
 import { notFound, loggedIn } from '../constants/responces';
 var jwt = require('jsonwebtoken');
 import passport from 'passport';
-import Cities from '../models/Cities'
-
-const mongo = require('mongodb');
-const MongoClient = require('mongodb').MongoClient;
+import Cities from '../models/Cities';
+import Users from '../models/Users';
+import Products from '../models/Products';
 
 
 const router = express.Router();
-
 router.use(cookieMid, queryMid);
 
 
-
-
-
-
-router.post('/auth', function(req, res) {
-  const user = UsersCtr.authUser(req.body.username, req.body.password);
-
-  if(user){
-    jwt.sign({ user }, 'secretKey', (err, token) => {
-      if(err) { 
-        console.log('jwt error', err); 
-      } else {
-        console.log(loggedIn);
-        loggedIn.data.user = { username: user.username, email: user.email };
-        loggedIn.token = token; 
-        res.send({loggedIn});
-      }
-    })
-  } else {
-    res.send(notFound);
-  }
-})
-
-router.post('/passport', passport.authenticate('local', { session: false }), function(req, res) {
-  res.send({ authenticated: true });
-})
+// ===== CITY ROUTES =============================
 
 router.get('/', function (req, res) {
-  // console.log(req.parsedCookie, req.parsedQuery);
-    const index = (Math.floor(Math.random() * 12) + 1) - 1;
+  // Return random city
+  const index = (Math.floor(Math.random() * 12) + 1) - 1;
+  
   /*Cities.getAll(async(results) => {
     await res.send(results[index]);
   });*/
@@ -58,24 +32,35 @@ router.get('/', function (req, res) {
 
 })
 
+router.get('/api/cities', function (req, res) {
+  Cities.mgGetAll((results) => {
+    res.send(results);
+  });
+})
 
-router.get('/api/products', verifyToken, function (req, res) {
-  const allProducts = ProductCtr.getAll();
-  console.log('all products: ', allProducts);  
-  res.send('/api/products <br/>' + allProducts.replace(/;/g, '<br/>'));
+router.delete('/api/cities/:id', function (req, res) {
+  Cities.deleteById(req.params.id, (results) => {
+    res.send(results);
+  });
+})
+
+// ====== PRODUCT ROUTES ============================
+
+router.get('/api/products', function (req, res) {
+  Products.getAll((results) => {
+      res.send(results);
+  });
 })
 
 
-router.get('/api/products/:id', verifyToken, function (req, res) {
-  const SingleProduct = ProductCtr.getById(req.params.id); 
-  console.log('product by ID', req.params.id, SingleProduct); 
-
-  res.send('/api/products/:id <br/>' + SingleProduct);
-  
+router.get('/api/products/:id', function (req, res) {
+  Products.getById(req.params.id, (result) => {
+      res.send(result);
+  });   
 })
 
 
-router.get('/api/products/:id/reviews', verifyToken, function (req, res) {
+router.get('/api/products/:id/reviews', function (req, res) {
   const SingleProduct = ProductCtr.getById(req.params.id); 
   const productReviews = ProductCtr.getReviews(req.params.id);  
   console.log('product reviews for ', SingleProduct, productReviews);
@@ -85,18 +70,32 @@ router.get('/api/products/:id/reviews', verifyToken, function (req, res) {
 })
 
 
-router.post('/api/products', verifyToken, function (req, res) {
+router.post('/api/products', function (req, res) {
     console.log('request', req.body);
     const newProduct = ProductCtr.addNew(req.body);
     console.log('adding new product: ', newProduct);
     res.send('/api/products' + newProduct.name + 'added');
 })
 
+router.delete('/api/products/:id', function (req, res) {
+  Products.deleteById(req.params.id, (results) => {
+    res.send(results);
+  });
+})
 
-router.get('/api/users', verifyToken, function (req, res) {
-  const allUsers = UsersCtr.getAll(); 
-  console.log('all users: ', allUsers);  
-  res.send('/api/users <br/>' + allUsers.replace(/;/g, '<br/>'));
+
+// ====== USER ROUTES =============================
+
+router.get('/api/users', function (req, res) {
+    Users.getAll((results) => {
+      res.send(results);
+  });
+})
+
+router.delete('/api/users/:id', function (req, res) {
+  Users.deleteById(req.params.id, (results) => {
+    res.send(results);
+  });
 })
 
 
