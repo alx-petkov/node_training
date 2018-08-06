@@ -38,6 +38,27 @@ router.get('/api/cities', function (req, res) {
   });
 })
 
+router.post('/api/cities', function (req, res) {
+  // toDo validation
+  const newCity = {
+    name: req.body.name,
+    country: req.body.country,
+    capital: req.body.capital,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    timezone: req.body.timezone
+  }
+  Cities.createNew(newCity, (results) => {
+    res.send(results);
+  });
+})
+
+router.put('/api/cities/:id', function (req, res) {
+  Cities.updateById(req.params.id, data, (results) => {
+    res.send(results);
+  });
+})
+
 router.delete('/api/cities/:id', function (req, res) {
   Cities.deleteById(req.params.id, (results) => {
     res.send(results);

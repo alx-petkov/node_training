@@ -83,6 +83,14 @@ const Cities = () => {
             })
     } 
 
+    const createNewCity = (newCity, callback) => {
+        const city = new CityData(newCity);
+        city.save((err, doc) => {
+            if(err){ console.log(err); }
+            else callback(doc);
+        });
+    }
+
     const deleteCityById = (id, callback) => {
         CityData.findByIdAndRemove(id, (err) => {
             if(err){ console.log(err); }
@@ -93,6 +101,7 @@ const Cities = () => {
     return {
         getAll: getAllCities,
         mgGetAll: getAllWithMongoose,
+        createNew: createNewCity,
         deleteById: deleteCityById
     }
 }
