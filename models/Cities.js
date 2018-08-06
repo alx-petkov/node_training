@@ -1,32 +1,64 @@
 const mongo = require('mongodb');
 // const MongoClient = require('mongodb').MongoClient;
+import cities from '../constants/Cities';
+const mongoose = require('mongoose');
+
+const mongoURL = 'mongodb://127.0.0.1:27017';
+const dbName = 'node_tr';
+const collectionName = 'cities';
+
+mongoose.connect(mongoURL + '/' + dbName);
+
+const Schema = mongoose.Schema;
+
+const CitySchema = new Schema({
+    id: Number,
+    name: { type: String, required: true },
+    country: { type: String, required: true },
+    capital: Boolean,
+    latitude: Number,
+    longitude: Number,
+    timezone: String
+}, { collection: collectionName });
+
+const CityData = mongoose.model('CityData', CitySchema);
 
 
 const Cities = () => {
 
-    const getAllCities = () => {
-        let response = []
-          mongo.connect('mongodb://127.0.0.1:27017', (err, dbp) => {
+    const insertCities = (() => {
+
+        mongo.connect(mongoURL, (err, dbp) => {
             if(err) { console.log(err); }
-            const dba = dbp.db('node_tr');
-            const cursor = dba.collection('cities').find();
+
+            const dba = dbp.db(dbName);
+            // dba.createCollection('cities');
+            const cursor = dba.collection(collectionName).insertMany(cities);
+            console.log('cities are inserted');
+            let resp = [];
+             
+        }); 
+    })();
+
+    const getAllCities = (callback) => {
+        
+        mongo.connect(mongoURL, (err, dbp) => {
+            if(err) { console.log(err); }
+            const dba = dbp.db(dbName);
+            const cursor = dba.collection(collectionName).find();
             let resp = [];
 
             cursor.toArray((err, results) => {
                 if(err){ console.log(err); }
-                console.log('results', results);
-                response.push(results);
+                callback(results);
                 }, () => {
                 database.close();
-            })
-             
+            })    
         });
-        console.log('resp', response); 
-        return response;
-    } 
 
     /*
-      MongoClient.connect('mongodb://127.0.0.1:27017', (err, database) => {
+    // alternative native syntax
+    MongoClient.connect(mongoURL, (err, database) => {
         if(err) { console.log(err); }
         const db = database.db('node_tr');
         const cursor = db.collection('cities').find();
@@ -41,8 +73,19 @@ const Cities = () => {
 
     */
 
+    } 
+
+
+    const getAllWithMongoose = (callback) => {
+        CityData.find()
+            .then((data) => {
+                callback(data);
+            })
+    } 
+
     return {
-        getAll: getAllCities
+        getAll: getAllCities,
+        mgGetAll: getAllWithMongoose
     }
 }
 

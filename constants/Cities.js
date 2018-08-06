@@ -1,0 +1,99 @@
+const cities = [{
+  "id": 1,
+  "name": "Irbid",
+  "country": "Jordan",
+  "capital": true,
+  "latitude": 32.5569557,
+  "longitude": 35.8479094,
+  "timezone": "Asia/Amman"
+}, {
+  "id": 2,
+  "name": "Ilek",
+  "country": "Russia",
+  "capital": true,
+  "latitude": 59.954793,
+  "longitude": 30.2145439,
+  "timezone": "Asia/Oral"
+}, {
+  "id": 3,
+  "name": "Lubāna",
+  "country": "Latvia",
+  "capital": true,
+  "latitude": 56.8999269,
+  "longitude": 26.7198789,
+  "timezone": "Europe/Riga"
+}, {
+  "id": 4,
+  "name": "Zaojiacheng",
+  "country": "China",
+  "capital": false,
+  "latitude": 39.283086,
+  "longitude": 117.432007,
+  "timezone": "Asia/Shanghai"
+}, {
+  "id": 5,
+  "name": "Timoulilt",
+  "country": "Morocco",
+  "capital": true,
+  "latitude": 32.2066153,
+  "longitude": -6.4649964,
+  "timezone": "Africa/Casablanca"
+}, {
+  "id": 6,
+  "name": "Karangharjo",
+  "country": "Indonesia",
+  "capital": true,
+  "latitude": -6.7050629,
+  "longitude": 111.6198661,
+  "timezone": "Asia/Jakarta"
+}, {
+  "id": 7,
+  "name": "Rzozów",
+  "country": "Poland",
+  "capital": true,
+  "latitude": 49.9514305,
+  "longitude": 19.7973419,
+  "timezone": "Europe/Warsaw"
+}, {
+  "id": 8,
+  "name": "Pirajuí",
+  "country": "Brazil",
+  "capital": false,
+  "latitude": -21.9929318,
+  "longitude": -49.4547036,
+  "timezone": "America/Sao_Paulo"
+}, {
+  "id": 9,
+  "name": "Descalvado",
+  "country": "Brazil",
+  "capital": true,
+  "latitude": -21.8898802,
+  "longitude": -47.6455169,
+  "timezone": "America/Sao_Paulo"
+}, {
+  "id": 10,
+  "name": "Xazgat",
+  "country": "China",
+  "capital": true,
+  "latitude": 46.342574,
+  "longitude": 86.242359,
+  "timezone": "Asia/Urumqi"
+}, {
+  "id": 11,
+  "name": "Satovcha",
+  "country": "Bulgaria",
+  "capital": false,
+  "latitude": 41.5565343,
+  "longitude": 24.0428542,
+  "timezone": "Europe/Sofia"
+}, {
+  "id": 12,
+  "name": "Ghāro",
+  "country": "Pakistan",
+  "capital": true,
+  "latitude": 24.4506879,
+  "longitude": 67.5882847,
+  "timezone": "Asia/Karachi"
+}]
+
+export default cities;

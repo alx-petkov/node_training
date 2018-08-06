@@ -46,49 +46,16 @@ router.post('/passport', passport.authenticate('local', { session: false }), fun
 })
 
 router.get('/', function (req, res) {
-  console.log(req.parsedCookie, req.parsedQuery);
-
-  Cities.getAll(res);
-  console.log(test);
-
-
-  // ===================================
-
-  /* mongo.connect('mongodb://127.0.0.1:27017', (err, dbp) => {
-  if(err) { console.log(err); }
-  const dba = dbp.db('node_tr');
-  const cursor = dba.collection('cities').find({});
-  console.log('cursor', cursor);
-  // const result = cursor.toArray();
-  cursor.forEach((doc, err)=>{
-  if(err){ console.log(err); }
-    console.log('document', doc);
-  }, () => {
-    
-   dbp.close();
-  })
-
+  // console.log(req.parsedCookie, req.parsedQuery);
+    const index = (Math.floor(Math.random() * 12) + 1) - 1;
+  /*Cities.getAll(async(results) => {
+    await res.send(results[index]);
   });*/
 
-  // ============================================
+  Cities.mgGetAll((results) => {
+    res.send(results[index]);
+  });
 
-  /* MongoClient.connect('mongodb://127.0.0.1:27017', (err, database) => {
-  if(err) { console.log(err); }
-  const db = database.db('node_tr');
-  const cursor = db.collection('cities').find();
-
-    cursor.toArray((err, results) => {
-      if(err){ console.log(err); }
-      console.log('results', results);
-      }, () => {
-    
-      database.close();
-    })
-  })*/
-
-  // ============================================
-
-  // res.send('Homepage route')
 })
 
 
