@@ -10,11 +10,8 @@ const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
     id: Number,
-    first_name: String,
-    last_name: String,
-    username: String,
-    password: String,
-    email: String
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
 }, { collection: collectionName });
 
 const ProductData = mongoose.model('ProductData', ProductSchema, collectionName);

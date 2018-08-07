@@ -5,21 +5,16 @@ import bodyParser from 'body-parser';
 import router from './routes/routes';
 import passport from 'passport';
 import passportConfig from './config/passport';
+var expressValidator = require('express-validator');
 
-/* import mongo from 'mongodb';
-import mongoose from 'mongoose';
-mongoose.connect('mongodb://localhost/loginapp');
-const db = mongoose.connection; */
+
 
 const app = express();
 
-app.use(bodyParser.json(), cookieParser(), queryParser());
-
-app.use(passport.initialize());
-app.use(passport.session());
-passportConfig(passport);
+app.use(bodyParser.json(), cookieParser(), queryParser(), expressValidator());
 
 app.use('/', router);
+// app.use();
 
 app.get('/',(request,response)=>{
   response.send('Hello world app');

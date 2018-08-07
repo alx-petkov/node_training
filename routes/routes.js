@@ -39,7 +39,17 @@ router.get('/api/cities', function (req, res) {
 })
 
 router.post('/api/cities', function (req, res) {
-  // toDo validation
+  // toDo extract city validation in single function
+  req.checkBody('name', 'Name is required').notEmpty();
+  req.checkBody('country', 'Country is required').notEmpty();
+  req.checkBody('capital', 'Capital is required').notEmpty();
+
+  const valErr = req.validationErrors();
+  if (valErr) {
+    res.send(valErr);
+  }
+
+
   const newCity = {
     name: req.body.name,
     country: req.body.country,
@@ -54,8 +64,26 @@ router.post('/api/cities', function (req, res) {
 })
 
 router.put('/api/cities/:id', function (req, res) {
-  Cities.updateById(req.params.id, data, (results) => {
-    res.send(results);
+  // toDo extract city validation in single function 
+  req.checkBody('name', 'Name is required').notEmpty();
+  req.checkBody('country', 'Country is required').notEmpty();
+  req.checkBody('capital', 'Capital is required').notEmpty();
+
+  const valErr = req.validationErrors();
+  if (valErr) {
+    res.send(valErr);
+  }
+
+  const inputData = {
+    name: req.body.name,
+    country: req.body.country,
+    capital: req.body.capital,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    timezone: req.body.timezone
+  }
+  Cities.updateById(req.params.id, inputData, (result) => {
+    res.send(result);
   });
 })
 
@@ -92,7 +120,14 @@ router.get('/api/products/:id/reviews', function (req, res) {
 
 
 router.post('/api/products', function (req, res) {
-    console.log('request', req.body);
+    req.checkBody('name', 'Name is required').notEmpty();
+    req.checkBody('price', 'Country is required').notEmpty();
+
+    const valErr = req.validationErrors();
+    if (valErr) {
+      res.send(valErr);
+    }
+    
     const newProduct = ProductCtr.addNew(req.body);
     console.log('adding new product: ', newProduct);
     res.send('/api/products' + newProduct.name + 'added');

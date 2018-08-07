@@ -15,7 +15,7 @@ const CitySchema = new Schema({
     id: Number,
     name: { type: String, required: true },
     country: { type: String, required: true },
-    capital: Boolean,
+    capital: { type: Boolean, required: true },
     latitude: Number,
     longitude: Number,
     timezone: String
@@ -91,6 +91,25 @@ const Cities = () => {
         });
     }
 
+    const updateCityById = (id, input, callback) => {
+        CityData.findById(id, (err, item) => {
+            if(err){ console.log('item not found', err); }
+            else {
+                item.name = input.name;
+                item.country = input.country;
+                item.capital = input.capital;
+                item.latitude = input.latitude;
+                item.longitude = input.longitude;
+                item.timezone = input.timezone;
+
+                item.save((err, doc) => {
+                    if(err){ console.log(err); }
+                    else callback(doc);
+                });
+            }
+        })
+    }
+
     const deleteCityById = (id, callback) => {
         CityData.findByIdAndRemove(id, (err) => {
             if(err){ console.log(err); }
@@ -102,6 +121,7 @@ const Cities = () => {
         getAll: getAllCities,
         mgGetAll: getAllWithMongoose,
         createNew: createNewCity,
+        updateById: updateCityById,
         deleteById: deleteCityById
     }
 }
