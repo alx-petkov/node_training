@@ -32,11 +32,9 @@ const Cities = () => {
             if(err) { console.log(err); }
 
             const dba = dbp.db(dbName);
-            // dba.createCollection('cities');
+            dba.createCollection('cities');
             const cursor = dba.collection(collectionName).insertMany(cities);
             console.log('Cities are inserted');
-            let resp = [];
-             
         }); 
     })();
 
