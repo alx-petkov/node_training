@@ -1,12 +1,12 @@
 import express from 'express';
 import cookieMid from '../middlewares/cookies';
 import queryMid from '../middlewares/queries';
-import verifyToken from '../middlewares/tokens';
+// import verifyToken from '../middlewares/tokens';
 import ProductCtr from '../controllers/products_controller';
 import UsersCtr from '../controllers/users_controller';
 import { notFound, loggedIn } from '../constants/responces';
-var jwt = require('jsonwebtoken');
-import passport from 'passport';
+// var jwt = require('jsonwebtoken');
+// import passport from 'passport';
 
 
 const router = express.Router();
@@ -14,7 +14,7 @@ const router = express.Router();
 router.use(cookieMid, queryMid);
 
 
-router.post('/auth', function(req, res) {
+/* router.post('/auth', function(req, res) {
   const user = UsersCtr.authUser(req.body.username, req.body.password);
 
   if(user){
@@ -35,7 +35,7 @@ router.post('/auth', function(req, res) {
 
 router.post('/passport', passport.authenticate('local', { session: false }), function(req, res) {
   res.send({ authenticated: true });
-})
+})*/
 
 router.get('/', function (req, res) {
   console.log(req.parsedCookie, req.parsedQuery);
@@ -43,14 +43,14 @@ router.get('/', function (req, res) {
 })
 
 
-router.get('/api/products', verifyToken, function (req, res) {
+router.get('/api/products', function (req, res) {
   const allProducts = ProductCtr.getAll();
   console.log('all products: ', allProducts);  
   res.send('/api/products <br/>' + allProducts.replace(/;/g, '<br/>'));
 })
 
 
-router.get('/api/products/:id', verifyToken, function (req, res) {
+router.get('/api/products/:id', function (req, res) {
   const SingleProduct = ProductCtr.getById(req.params.id); 
   console.log('product by ID', req.params.id, SingleProduct); 
 
@@ -59,7 +59,7 @@ router.get('/api/products/:id', verifyToken, function (req, res) {
 })
 
 
-router.get('/api/products/:id/reviews', verifyToken, function (req, res) {
+router.get('/api/products/:id/reviews', function (req, res) {
   const SingleProduct = ProductCtr.getById(req.params.id); 
   const productReviews = ProductCtr.getReviews(req.params.id);  
   console.log('product reviews for ', SingleProduct, productReviews);
@@ -69,7 +69,7 @@ router.get('/api/products/:id/reviews', verifyToken, function (req, res) {
 })
 
 
-router.post('/api/products', verifyToken, function (req, res) {
+router.post('/api/products', function (req, res) {
     console.log('request', req.body);
     const newProduct = ProductCtr.addNew(req.body);
     console.log('adding new product: ', newProduct);
@@ -77,7 +77,7 @@ router.post('/api/products', verifyToken, function (req, res) {
 })
 
 
-router.get('/api/users', verifyToken, function (req, res) {
+router.get('/api/users', function (req, res) {
   const allUsers = UsersCtr.getAll(); 
   console.log('all users: ', allUsers);  
   res.send('/api/users <br/>' + allUsers.replace(/;/g, '<br/>'));

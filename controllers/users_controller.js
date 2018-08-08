@@ -1,4 +1,4 @@
-import users from '../models/Users';
+import users from '../constants/Users';
 
 
 const UsersCtr = () => {
