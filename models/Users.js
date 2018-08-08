@@ -1,8 +1,8 @@
-const Sequelize = require('sequelize');
+/* const Sequelize = require('sequelize');
 import connection from '../config/postgres';
 import users from '../constants/Users';
 
-/* const connection = new Sequelize('node_tr', 'postgres', 'epam', {
+const connection = new Sequelize('node_tr', 'postgres', 'epam', {
   host: 'localhost',
   dialect: 'postgres'
 })
@@ -14,7 +14,7 @@ connection
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
-  }); */
+  }); 
 
 
 const User = connection.define('user', {
@@ -28,7 +28,7 @@ const User = connection.define('user', {
   },
   username: { 
     type: Sequelize.STRING,
-    // unique: true,
+    unique: true,
     allowNull: false
   },
   password: { 
@@ -47,15 +47,9 @@ connection.sync({ force: true }).then(() => {
   return User.bulkCreate(
     users
   )
-/*}).then(() => {
-  return Product.findAll();
-}).then(prods => {
-  prods.forEach((pd) => {
-    console.log('found', pd.dataValues);
-  })*/
 }).catch(err => {
     console.error('Unable to connect to the database:', err);
   });
 
 
-export default User;
+export default User; */

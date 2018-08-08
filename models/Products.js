@@ -1,8 +1,8 @@
-const Sequelize = require('sequelize');
+/* const Sequelize = require('sequelize');
 import connection from '../config/postgres';
 import products from '../constants/Products';
 
-/* const connection = new Sequelize('node_tr', 'postgres', 'epam', {
+const connection = new Sequelize('node_tr', 'postgres', 'epam', {
   host: 'localhost',
   dialect: 'postgres'
 })
@@ -14,7 +14,7 @@ connection
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
-  }); */
+  });
 
 
 const Product = connection.define('product', {
@@ -34,26 +34,25 @@ connection.sync({ force: true }).then(() => {
   return Product.bulkCreate(
     products
   )
-/*}).then(() => {
+}).then(() => {
   return Product.findAll();
 }).then(prods => {
   prods.forEach((pd) => {
     console.log('found', pd.dataValues);
-  })*/
+  })
 }).catch(err => {
     console.error('Unable to connect to the database:', err);
   });
 
 
-export default Product;
-
-
-/*Product.sync({ force: true }).then(() => {
+Product.sync({ force: true }).then(() => {
   return Product.bulkCreate(
     products
   )
 }).then(() => {
   return Product.findAll();
 }).then(prods => {
-  console.log('found', prods) // the 'programming' tasks will both have a status of 'inactive'
-})*/
+  console.log('found', prods)
+})
+
+export default Product; */
