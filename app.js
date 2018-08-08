@@ -11,10 +11,14 @@ var expressValidator = require('express-validator');
 
 const app = express();
 
-app.use(bodyParser.json(), cookieParser(), queryParser(), expressValidator());
+app.use(
+  bodyParser.json(), 
+  cookieParser(), 
+  queryParser(), 
+  expressValidator()
+  );
 
 app.use('/', router);
-// app.use();
 
 app.get('/',(request,response)=>{
   response.send('Hello world app');
