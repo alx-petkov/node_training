@@ -1,41 +1,14 @@
 import express from 'express';
 import cookieMid from '../middlewares/cookies';
 import queryMid from '../middlewares/queries';
-// import verifyToken from '../middlewares/tokens';
 import ProductCtr from '../controllers/products_controller';
 import UsersCtr from '../controllers/users_controller';
 import { notFound, loggedIn } from '../constants/responces';
-// var jwt = require('jsonwebtoken');
-// import passport from 'passport';
 
 
 const router = express.Router();
 
 router.use(cookieMid, queryMid);
-
-
-/* router.post('/auth', function(req, res) {
-  const user = UsersCtr.authUser(req.body.username, req.body.password);
-
-  if(user){
-    jwt.sign({ user }, 'secretKey', (err, token) => {
-      if(err) { 
-        console.log('jwt error', err); 
-      } else {
-        console.log(loggedIn);
-        loggedIn.data.user = { username: user.username, email: user.email };
-        loggedIn.token = token; 
-        res.send({loggedIn});
-      }
-    })
-  } else {
-    res.send(notFound);
-  }
-})
-
-router.post('/passport', passport.authenticate('local', { session: false }), function(req, res) {
-  res.send({ authenticated: true });
-})*/
 
 router.get('/', function (req, res) {
   console.log(req.parsedCookie, req.parsedQuery);
