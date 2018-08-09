@@ -8,7 +8,7 @@ import { notFound, loggedIn } from '../constants/responces';
 // import User from '../models/Users';
 // import Reviews from '../models/Reviews';
 import { Product, User, Review } from '../config/postgres';
-// import connection from '../config/postgres';
+
 
 const router = express.Router();
 
@@ -22,49 +22,46 @@ router.get('/', function (req, res) {
 
 router.get('/api/products', function (req, res) {
   Product.findAll()
-  .then(prods => {
-    res.send(prods);
-    // prods.forEach((pd) => {
-    //   console.log('aaaa', pd.dataValues);
-    // });
-  }); // toDo error handling
+    .then(prods => {
+      res.send(prods);
+    })
+    .catch(err => {
+      console.error('error', err);
+      res.send('Unable to retrieve items')
+    });
 })
 
 
 router.get('/api/products/:id', function (req, res) {
   Product.findById(req.params.id)
-  .then(prod => {
-    res.send(prod);
-    // prods.forEach((pd) => {
-    //   console.log('aaaa', pd.dataValues);
-    // });
-  }); // toDo error handling
+    .then(prod => {
+      res.send(prod);
+    })
+    .catch(err => {
+      console.error('error', err);
+      res.send('Unable to retrieve item')
+    });
 })
 
 
 router.get('/api/products/:id/reviews', function (req, res) {
-  let response = {};
+  let productName = '';
 
-  Review.findAll({ where: { productId: req.params.id}})
-  .then(prod => {
-    // response = Object.assign(response, { reviews: prod.reviews });
-    // response.reviews = prod.reviews;
-    // return Product.findById(req.params.id)
-    res.send(prod);
-    // prods.forEach((pd) => {
-    //   console.log('aaaa', pd.dataValues);
-    // });
-  // }).then(prod => {
-    // response.product = prod.prod;
-    // res.send(Object.assign(response, { product: prod } ));
-  });
+  Product.findById(req.params.id)
+    .then(prod => {
+      productName = prod.name;
 
-  /* const SingleProduct = ProductCtr.getById(req.params.id); 
-  const productReviews = ProductCtr.getReviews(req.params.id);  
-  console.log('product reviews for ', SingleProduct, productReviews);
-  res.send('/api/products/:id/reviews <br/>' + SingleProduct + 
-  '<br/> reviews <br/>' + productReviews.replace(/;/g, '<br/>')); */
-  
+      return  Review.findAll({ 
+        where: { productId: req.params.id }
+      })
+    }).then(reviews => {
+      const response = Object.assign({}, { data: reviews }, { productName });
+      res.send(response);
+    })
+    .catch(err => {
+      console.error('error', err);
+      res.send('Unable to retrieve items')
+    });;  
 })
 
 
@@ -75,10 +72,14 @@ router.post('/api/products', function (req, res) {
     }
 
     Product.create(newProduct)
-    .then((newItem) => {
-      res.send(newItem);
-      console.log('New product added');
-    }) // toDo error handling
+      .then((newItem) => {
+        res.send(newItem);
+        console.log('New product added');
+      })
+      .catch(err => {
+        console.error('error', err);
+        res.send('Unable to create item')
+      });
 }) 
 
 
@@ -86,10 +87,11 @@ router.get('/api/users', function (req, res) {
     User.findAll()
       .then(prods => {
         res.send(prods);
-        // prods.forEach((pd) => {
-        //   console.log('aaaa', pd.dataValues);
-        // });
-      }); // toDo error handling
+      })
+      .catch(err => {
+        console.error('error', err);
+        res.send('Unable to retrieve item')
+      });
 })
 
 
