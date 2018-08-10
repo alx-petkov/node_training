@@ -18,7 +18,7 @@ router.use(cookieMid, queryMid);
 
 // ===== CITY ROUTES =============================
 
-router.get('/', function (req, res) {
+router.get('/api/cities/random', function (req, res) {
   // Return random city
   const index = (Math.floor(Math.random() * 12) + 1) - 1;
   

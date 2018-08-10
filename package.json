@@ -46,6 +46,8 @@
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-local": "^1.0.0",
-    "query-parser-express": "^1.0.3"
+    "query-parser-express": "^1.0.3",
+    "swagger": "^0.7.5",
+    "swagger-ui": "^3.18.0"
   }
 }

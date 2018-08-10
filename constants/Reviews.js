@@ -20,9 +20,11 @@ const reviews = [{
   ]
 }, {
   "id": 4,
-  "reviews": "synergize collaborative e-commerce",
-  "review2": "curabitur in libero ut massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt",
-  "review3": "amet nulla quisque arcu libero rutrum ac lobortis vel dapibus at diam nam tristique"
+  "reviews": [
+    "synergize collaborative e-commerce",
+    "curabitur in libero ut massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt",
+    "amet nulla quisque arcu libero rutrum ac lobortis vel dapibus at diam nam tristique"
+  ]
 }, {
   "id": 5,
   "reviews": [
