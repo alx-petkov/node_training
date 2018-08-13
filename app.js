@@ -18,6 +18,12 @@ app.use(
   expressValidator()
   );
 
+var swaggerUi = require('swagger-ui-express'),
+    swaggerDocument = require('./api/swagger/swagger.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// http://localhost:8080/api-docs/
+
 app.use('/', router);
 
 app.get('/',(request,response)=>{
