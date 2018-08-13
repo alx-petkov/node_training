@@ -145,7 +145,9 @@ paths:
         200:
           description: successful operation
           schema:
-            $ref: '#/definitions/Product'
+            type: array
+            items:
+              $ref: '#/definitions/Product'
     post:
       tags:
       - products
@@ -252,7 +254,9 @@ paths:
         200:
           description: successful operation
           schema:
-            $ref: '#/definitions/User'
+            type: array
+            items:
+              $ref: '#/definitions/User'
   /api/user/{userId}:
     delete:
       tags:
