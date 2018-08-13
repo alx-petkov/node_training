@@ -46,7 +46,7 @@ router.post('/api/cities', function (req, res) {
 
   const valErr = req.validationErrors();
   if (valErr) {
-    res.send(valErr);
+    res.send(Object.assign( {}, valErr, { error: 'Invalid input'}));
   }
 
 
@@ -71,7 +71,7 @@ router.put('/api/cities/:id', function (req, res) {
 
   const valErr = req.validationErrors();
   if (valErr) {
-    res.send(valErr);
+    res.send(Object.assign( {}, valErr, { error: 'Invalid input'}));
   }
 
   const inputData = {
@@ -105,7 +105,27 @@ router.get('/api/products', function (req, res) {
 router.get('/api/products/:id', function (req, res) {
   Products.getById(req.params.id, (result) => {
       res.send(result);
-  });   
+  });  
+})
+
+router.post('/api/products', function (req, res) {
+    req.checkBody('name', 'Name is required').notEmpty();
+    req.checkBody('price', 'Country is required').notEmpty();
+
+    const valErr = req.validationErrors();
+    if (valErr) {
+      res.send(Object.assign( {}, valErr, { error: 'Invalid input'}));
+    }
+    
+    Products.createNew(req.body, (result) => {
+      res.send(result);
+    });    
+})
+
+router.delete('/api/products/:id', function (req, res) {
+  Products.deleteById(req.params.id, (results) => {
+    res.send(results);
+  });
 })
 
 
@@ -116,27 +136,6 @@ router.get('/api/products/:id/reviews', function (req, res) {
   res.send('/api/products/:id/reviews <br/>' + SingleProduct + 
   '<br/> reviews <br/>' + productReviews.replace(/;/g, '<br/>'));
   
-})
-
-
-router.post('/api/products', function (req, res) {
-    req.checkBody('name', 'Name is required').notEmpty();
-    req.checkBody('price', 'Country is required').notEmpty();
-
-    const valErr = req.validationErrors();
-    if (valErr) {
-      res.send(valErr);
-    }
-    
-    const newProduct = ProductCtr.addNew(req.body);
-    console.log('adding new product: ', newProduct);
-    res.send('/api/products' + newProduct.name + 'added');
-})
-
-router.delete('/api/products/:id', function (req, res) {
-  Products.deleteById(req.params.id, (results) => {
-    res.send(results);
-  });
 })
 
 

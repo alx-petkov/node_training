@@ -40,7 +40,10 @@ const Users = () => {
 
     const deleteUserById = (id, callback) => {
         UserData.findByIdAndRemove(id, (err) => {
-            if(err){ console.log(err); }
+            if(err){ 
+                callback({ error: 'User not found'});
+                console.log(err); 
+            }
             else callback( {status: 200, msg: 'item removed'});
         }).exec();
     }

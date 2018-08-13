@@ -21,7 +21,9 @@ const Products = () => {
 
     const insertProducts = (() => {
         ProductData.collection.insert(products, (err, docs) => {
-            if (err) { return console.log(err); }
+            if (err) { 
+                return console.log(err); 
+            }
             else { console.log('Products were inserted'); }
         })
     })();
@@ -32,26 +34,48 @@ const Products = () => {
             .then((data) => {
                 callback(data);
             })
+            .catch((err) => {
+                callback({ error: 'Products not found'});
+                console.log(err); 
+            })
     } 
 
     const getProductById = (id, callback) => {
         ProductData.findById(id, (err, doc) => {
-            if (err) { return console.log('aaaaa', err); }
+            if (err) { 
+                callback({ error: 'Product not found'});
+                return console.log(err); 
+            }
             else { console.log('Product:', doc); callback(doc) }
         })
     }
 
     const deleteProductById = (id, callback) => {
         ProductData.findByIdAndRemove(id, (err) => {
-            if(err){ console.log(err); }
+            if(err){
+                callback({ error: 'Product not found'});  
+                console.log(err); 
+            }
             else callback( {status: 200, msg: 'item removed'});
         }).exec();
+    }
+
+    const createNewProduct = (newProduct, callback) => {
+        const product = new ProductData(newProduct);
+        product.save((err, doc) => {
+            if(err){ 
+                callback({ error: 'Unable to add product'}); 
+                console.log(err); 
+            }
+            else callback(doc);
+        });
     }
 
     return {
         getAll: getAllProducts,
         getById: getProductById,
-        deleteById: deleteProductById
+        deleteById: deleteProductById,
+        createNew: createNewProduct,
     }
 }
 

@@ -91,7 +91,10 @@ const Cities = () => {
 
     const updateCityById = (id, input, callback) => {
         CityData.findById(id, (err, item) => {
-            if(err){ console.log('item not found', err); }
+            if(err){ 
+                console.log('item not found', err); 
+                callback({ error: 'City not found'});
+            }
             else {
                 item.name = input.name;
                 item.country = input.country;

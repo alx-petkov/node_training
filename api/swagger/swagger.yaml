@@ -12,8 +12,8 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-host: localhost:8080
-basePath: /
+host: virtserver.swaggerhub.com
+basePath: /Node_mentoring_pr/Node_tr/1.0.0
 tags:
 - name: cities
   description: Manipulate a list of cities
@@ -29,54 +29,27 @@ paths:
     get:
       tags:
       - cities
-      summary: Find pet by ID
-      description: Returns a single pet
-      operationId: getPetById
+      summary: Get random city from  list
+      description: Returns a single city
+      operationId: getRandomCity
       produces:
       - application/json
-      - application/xml
-      parameters:
-      - name: cityId
-        in: path
-        description: ID of pet to return
-        required: true
-        type: integer
-        format: int64
+      parameters: []
       responses:
         200:
           description: successful operation
           schema:
             $ref: '#/definitions/City'
-        400:
-          description: Invalid ID supplied
-        404:
-          description: Pet not found
-      security:
-      - api_key: []
   /api/cities:
     get:
       tags:
       - cities
-      summary: Finds city by Id
-      description: Multiple status values can be provided with comma separated strings
-      operationId: findPetsByStatus
+      summary: Returns all cities currently in the list
+      description: Returns multiple city items
+      operationId: getAllCities
       produces:
       - application/json
-      - application/xml
-      parameters:
-      - name: status
-        in: query
-        description: Status values that need to be considered for filter
-        required: true
-        type: array
-        items:
-          type: string
-          enum:
-          - available
-          - pending
-          - sold
-          default: available
-        collectionFormat: multi
+      parameters: []
       responses:
         200:
           description: successful operation
@@ -84,12 +57,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/City'
-        400:
-          description: Invalid status value
-      security:
-      - petstore_auth:
-        - write:pets
-        - read:pets
     post:
       tags:
       - cities
@@ -107,83 +74,70 @@ paths:
         schema:
           $ref: '#/definitions/City'
       responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/City'
         405:
           description: Invalid input
-      security:
-      - petstore_auth:
-        - write:pets
-        - read:pets
   /api/cities/{cityId}:
     put:
       tags:
       - cities
-      summary: Update an existing pet
-      operationId: updatePet
+      summary: Update an existing city
+      operationId: updateCity
       consumes:
       - application/json
-      - application/xml
       produces:
       - application/json
-      - application/xml
       parameters:
       - name: cityId
         in: path
-        description: Pet id to delete
+        description: ID of the city to be edited
         required: true
         type: integer
         format: int64
       - in: body
         name: body
-        description: Pet object that needs to be added to the store
+        description: Prperties of the city that need to be updated
         required: true
         schema:
           $ref: '#/definitions/City'
       responses:
-        400:
-          description: Invalid ID supplied
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/City'
         404:
-          description: Pet not found
+          description: City not found
         405:
-          description: Validation exception
-      security:
-      - petstore_auth:
-        - write:pets
-        - read:pets
+          description: Invalid input
     delete:
       tags:
       - cities
-      summary: Deletes a pet
-      operationId: deletePet
+      summary: Deletes a city from the list
+      operationId: deleteCity
       produces:
       - application/json
-      - application/xml
       parameters:
-      - name: api_key
-        in: header
-        required: false
-        type: string
       - name: cityId
         in: path
-        description: Pet id to delete
+        description: ID of the city to delete
         required: true
         type: integer
         format: int64
       responses:
-        400:
-          description: Invalid ID supplied
+        200:
+          description: Item removed
         404:
-          description: Pet not found
-      security:
-      - petstore_auth:
-        - write:pets
-        - read:pets
+          description: City not found
   /api/products:
     get:
       tags:
       - products
-      summary: Returns pet inventories by status
-      description: Returns a map of status codes to quantities
-      operationId: getInventory
+      summary: Returns full list of avaliable products
+      description: Returns all products in DB
+      operationId: getProducts
       produces:
       - application/json
       parameters: []
@@ -191,24 +145,18 @@ paths:
         200:
           description: successful operation
           schema:
-            type: object
-            additionalProperties:
-              type: integer
-              format: int32
-      security:
-      - api_key: []
+            $ref: '#/definitions/Product'
     post:
       tags:
       - products
-      summary: Place an order for a pet
-      operationId: placeOrder
+      summary: Insert new roduct in the list
+      operationId: addProduct
       produces:
       - application/json
-      - application/xml
       parameters:
       - in: body
         name: body
-        description: order placed for purchasing the pet
+        description: Add new product with name and price
         required: true
         schema:
           $ref: '#/definitions/Product'
@@ -218,75 +166,67 @@ paths:
           schema:
             $ref: '#/definitions/Product'
         400:
-          description: Invalid Order
+          description: Invalid operation
+        405:
+          description: Invalid input
   /api/products/{productId}:
     get:
       tags:
       - products
-      summary: Find purchase order by ID
-      description: For valid response try integer IDs with value >= 1 and <= 10.\ \ Other values will generated exceptions
-      operationId: getOrderById
+      summary: Find specific product from the list
+      description: Get single product from the list
+      operationId: getProductById
       produces:
       - application/json
-      - application/xml
       parameters:
       - name: productId
         in: path
-        description: ID of pet that needs to be fetched
+        description: ID of product that needs to be fetched
         required: true
         type: integer
-        maximum: 10.0
-        minimum: 1
         format: int64
       responses:
         200:
           description: successful operation
           schema:
-            $ref: '#/definitions/City'
-        400:
-          description: Invalid ID supplied
+            $ref: '#/definitions/Product'
         404:
-          description: Order not found
+          description: Product not found
     delete:
       tags:
       - products
-      summary: Delete purchase order by ID
-      description: For valid response try integer IDs with positive integer value.\ \ Negative or non-integer values will generate API errors
-      operationId: deleteOrder
+      summary: Delete product by ID
+      description: Remove product from list by its ID
+      operationId: deleteProduct
       produces:
       - application/json
-      - application/xml
       parameters:
       - name: productId
         in: path
-        description: ID of the order that needs to be deleted
+        description: ID of the product that needs to be deleted
         required: true
         type: integer
-        minimum: 1
         format: int64
       responses:
-        400:
-          description: Invalid ID supplied
+        200:
+          description: Item removed
         404:
-          description: Order not found
-  /api/products/{orderId}/reviews:
+          description: Product not found
+  /api/products/{productId}/reviews:
     get:
       tags:
       - products
-      summary: Find purchase order by ID
-      description: For valid response try integer IDs with value >= 1 and <= 10.\ \ Other values will generated exceptions
+      summary: Find user reviews for specific product
+      description: Find user feedback for a product
       operationId: getOrderByIdgg
       produces:
       - application/json
-      - application/xml
       parameters:
-      - name: orderId
+      - name: productId
         in: path
         description: ID of pet that needs to be fetched
         required: true
         type: integer
-        maximum: 10.0
-        minimum: 1
         format: int64
       responses:
         200:
@@ -298,66 +238,41 @@ paths:
           schema:
             $ref: '#/definitions/ApiResponse'
         404:
-          description: Order not found
-          schema:
-            $ref: '#/definitions/ApiResponse'
+          description: Product not found
   /api/users:
     get:
       tags:
       - users
-      summary: Get user by user name
-      operationId: getUserByName
+      summary: Get all users in list
+      operationId: getUsers
       produces:
       - application/json
-      - application/xml
-      parameters:
-      - name: username
-        in: path
-        description: The name that needs to be fetched. Use user1 for testing.
-        required: true
-        type: string
+      parameters: []
       responses:
         200:
           description: successful operation
           schema:
             $ref: '#/definitions/User'
-        400:
-          description: Invalid username supplied
-        404:
-          description: User not found
   /api/user/{userId}:
     delete:
       tags:
       - users
       summary: Delete user
-      description: This can only be done by the logged in user.
+      description: Removing user from list.
       operationId: deleteUser
       produces:
       - application/json
-      - application/xml
       parameters:
       - name: userId
         in: path
-        description: The name that needs to be deleted
+        description: The ID of the user that needs to be deleted
         required: true
         type: string
       responses:
-        400:
-          description: Invalid username supplied
+        200:
+          description: Item removed
         404:
           description: User not found
-securityDefinitions:
-  petstore_auth:
-    type: oauth2
-    authorizationUrl: http://petstore.swagger.io/oauth/dialog
-    flow: implicit
-    scopes:
-      write:pets: modify pets in your account
-      read:pets: read your pets
-  api_key:
-    type: apiKey
-    name: api_key
-    in: header
 definitions:
   City:
     type: object
